@@ -1,45 +1,13 @@
 from http import HTTPStatus
-import os
 from typing import Annotated
 from bson import ObjectId
 from fastapi import Body, Depends, FastAPI, Path, Response
-from pymongo import AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.asynchronous.database import AsyncDatabase
 from app.books.book import Book
+from app.mongo import books_colllection, mongo_database
 
 api = FastAPI()
-
-
-class MongoConfig:
-    def __init__(self, host: str):
-        self.host = host
-
-
-async def mongo_config() -> MongoConfig:
-    return MongoConfig(os.environ["Mongo_Host"])
-
-
-async def mongo_client(
-    config: Annotated[
-        MongoConfig,
-        Depends(mongo_config)]
-) -> AsyncMongoClient:
-    return AsyncMongoClient(config.host)
-
-
-async def mongo_database(
-    mongoClient: Annotated[
-        AsyncMongoClient,
-        Depends(mongo_client)]
-) -> AsyncDatabase:
-    return mongoClient.get_database("bookStore")
-
-
-async def books_colllection(
-    mongo_database: Annotated[AsyncDatabase, Depends(mongo_database)]
-) -> AsyncCollection:
-    return mongo_database.get_collection("books")
 
 
 @api.get("/books", status_code=HTTPStatus.OK)

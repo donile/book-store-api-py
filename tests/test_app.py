@@ -7,9 +7,10 @@ from pymongo.collection import Collection
 from pymongo.database import Database
 import pytest
 from app.books.book import Book
-from app.main import MongoConfig, api
+from app.main import api
 from fastapi.testclient import TestClient
 from testcontainers.mongodb import MongoDbContainer
+from app.mongo import MongoConfig
 
 
 @pytest.fixture(autouse=True, scope="session")
