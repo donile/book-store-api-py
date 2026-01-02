@@ -3,11 +3,11 @@ from fastapi import APIRouter, Path, Response, Body, Depends
 from http import HTTPStatus
 from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.asynchronous.database import AsyncDatabase
-
 from typing import Annotated
 
 from app.mongo import mongo_database, books_colllection
-from app.books.book import Book
+from app.books import Book
+
 
 router = APIRouter()
 
