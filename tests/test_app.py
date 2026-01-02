@@ -61,7 +61,7 @@ def http_client() -> TestClient:
 
 def test_get_books(http_client: TestClient):
     response = http_client.get("/books")
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.OK
     assert response.json() == [
         {
             "title": "Dead Simple Python",
@@ -82,7 +82,7 @@ def test_post_book(http_client: TestClient, book_collection: Collection):
     response = http_client.post("/books", json=book)
     book_id = response.headers["Location"].split("/")[-1]
     book["_id"] = ObjectId(book_id)
-    assert response.status_code == 201
+    assert response.status_code == HTTPStatus.CREATED
     assert book_collection.find_one({"_id": ObjectId(book_id)}) == book
 
 
